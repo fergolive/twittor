@@ -39,5 +39,15 @@ self.addEventListener('install',e=>{
 //proceso de activacion y borrado de caches
 self.addEventListener('activate',e=>{
 
+    const respuesta = caches.keys().then( keys=>{
+            keys.forEach(key=>{
+                if(key!==STATIC_CACHE && key.includes ('static')) //comparo la version del cache para ver si hay cambios
+                {
+                    return caches.delete(key)  //entonces si hay cambios en static, lo borro
+                }
+            })
+    })
+
+    e.waitUntil(respuesta);
     
 });
